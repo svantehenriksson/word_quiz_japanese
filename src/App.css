@@ -1,0 +1,297 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Press+Start+2P&display=swap');
+
+body {
+    font-family: 'Orbitron', sans-serif;
+    background-color: #0d0d0d;
+    color: #fff;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+h1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 3.5em;
+    color: #00ffcc;
+    text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 1.5em;
+    color: #00ffcc;
+    margin-bottom: 30px;
+}
+
+#quiz {
+    background-color: #1c1c1c;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 255, 204, 0.3);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.question {
+    font-size: 1.8em;
+    margin-bottom: 30px;
+    color: #fff;
+}
+
+.choices {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.choices button {
+    background-color: #00ffcc;
+    color: #0d0d0d;
+    padding: 15px 25px;
+    font-size: 1.2em;
+    border: 2px solid #00ffcc;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+}
+
+.choices button:hover {
+    background-color: #0d0d0d;
+    color: #00ffcc;
+    border-color: #00ffcc;
+    transform: scale(1.05);
+}
+
+.choices button:active {
+    transform: scale(0.95);
+}
+
+#feedback {
+    font-size: 1.5em;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #ffcc00;
+}
+
+.correct-answer {
+    animation: correctPulse 0.5s ease;
+    color: #4caf50;
+}
+
+.translation-popup {
+  position: absolute;
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 0.9em;
+  display: none; /* Initially hidden */
+  z-index: 10;
+  box-shadow: 0px 0px 10px rgba(0, 255, 204, 0.3);
+}
+
+
+@keyframes correctPulse {
+    0% {
+        transform: scale(1);
+        background-color: #00ffcc;
+    }
+    50% {
+        transform: scale(1.2);
+        background-color: #4caf50;
+    }
+    100% {
+        transform: scale(1);
+        background-color: #00ffcc;
+    }
+}
+
+.example-sentence {
+    font-size: 1.2em;
+    margin-top: 15px;
+    font-style: italic;
+    position: relative;
+    color: #fff;
+}
+
+.example-word {
+    border-bottom: 1px dotted #ffcc00;
+    cursor: pointer;
+    color: #00ffcc;
+    padding: 0 2px;
+}
+
+.translation-popup {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    z-index: 10;
+}
+
+#next-button {
+    margin-top: 20px;
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    display: none;
+    box-shadow: 0 0 10px #4caf50, 0 0 20px #4caf50;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+#next-button:hover {
+    background-color: #388E3C;
+    transform: scale(1.05);
+}
+
+#next-button:active {
+    transform: scale(0.95);
+}
+
+/* Progress bar */
+#progress-bar-container {
+    width: 100%; /* Make progress bar same width as the quiz box */
+    background-color: #333;
+    border-radius: 20px;
+    margin: 20px auto;
+    padding: 5px;
+    max-width: 600px; /* Same width as the quiz box */
+}
+
+#progress-bar {
+    width: 0%; /* Start with 0% width */
+    height: 30px;
+    background-color: #00ffcc;
+    border-radius: 15px;
+}
+
+#progress-text {
+    font-size: 1.2em;
+    color: #fff;
+    margin-top: 10px;
+}
+
+
+/* Styling for the import-progress-form */
+#import-progress-form {
+    margin-top: 30px;
+    text-align: left; /* Align text and form to the left */
+    max-width: 600px; /* Ensure the form is as wide as the quiz box */
+    margin-left: 0; /* Align form to the left edge of the quiz box */
+    margin-right: auto; /* Center the form within the page */
+}
+
+#import-progress-form p {
+    font-size: 1.2em;
+    color: #00ffcc;
+    margin-bottom: 10px;
+}
+
+#import-progress-form input {
+    padding: 8px;
+    font-size: 1.2em;
+    width: 100%; /* Keep the input field full-width inside the form */
+    max-width: 200px; /* Limit input width */
+    border-radius: 15px;
+    border: 2px solid #00ffcc;
+    background-color: #1c1c1c;
+    color: #fff;
+    box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+    margin-bottom: 10px; /* Add space below the input */
+}
+
+#import-progress-form button {
+    background-color: #00ffcc;
+    color: #0d0d0d;
+    padding: 8px 15px; /* Reduced padding for smaller button */
+    font-size: 1em; /* Smaller font size */
+    border: 2px solid #00ffcc;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+    margin-top: 10px; /* Add some margin between button and input */
+}
+
+#import-progress-form button:hover {
+    background-color: #0d0d0d;
+    color: #00ffcc;
+    transform: scale(1.05);
+}
+
+#import-progress-form button:active {
+    transform: scale(0.95);
+}
+
+#import-progress-form #error-message {
+    font-size: 1.2em;
+    margin-top: 10px;
+    color: red;
+    display: none; /* Error message initially hidden */
+}
+
+
+
+/* Styling for the import-progress-form */
+#import-progress-form {
+    margin-top: 30px;
+    text-align: left; /* Align text and form to the left */
+    max-width: 600px; /* Same width as the quiz box */
+    margin-left: auto; /* Ensures the form aligns left */
+    margin-right: auto; /* Centers the form within the page */
+}
+
+#import-progress-form p {
+    font-size: 1.2em;
+    color: #00ffcc;
+    margin-bottom: 10px;
+}
+
+#import-progress-form input {
+    padding: 12px;
+    font-size: 1.2em;
+    width: 100%; /* Makes the input field as wide as the form */
+    border-radius: 15px;
+    border: 2px solid #00ffcc;
+    background-color: #1c1c1c;
+    color: #fff;
+    box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+    margin-bottom: 15px;
+}
+
+#import-progress-form button {
+    background-color: #00ffcc;
+    color: #0d0d0d;
+    padding: 12px 25px;
+    font-size: 1.2em;
+    border: 2px solid #00ffcc;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+}
+
+#import-progress-form button:hover {
+    background-color: #0d0d0d;
+    color: #00ffcc;
+    transform: scale(1.05);
+}
+
+#import-progress-form button:active {
+    transform: scale(0.95);
+}
+
+#import-progress-form #error-message {
+    font-size: 1.2em;
+    margin-top: 10px;
+    color: red;
+    display: none; /* Error message initially hidden */
+}
