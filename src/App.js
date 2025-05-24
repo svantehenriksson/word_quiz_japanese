@@ -1,11 +1,32 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import "./App.css";
 import { wordPairs, wordTranslations } from './data'; // Import the data
+import { congratulatoryMessages } from './congrats_messages'; // Import the congratulatory messages
 
 const App = () => {
   const totalWords = 500;
+
+  const [currentLevel, setCurrentLevel] = useState(0); // 0 = Words 1–25
+
+  // We'll split the 500 words into 20 levels of 25 words each
+  // Variables introduced for style and in case we want to shorten levels later
+ 
+  const wordsPerLevel = 25;
+  const totalLevels = Math.ceil(wordPairs.length / wordsPerLevel);
+  const start = currentLevel * wordsPerLevel;
+  const end = start + wordsPerLevel;
+
+  const levelWordPairs = useMemo(() => {
+    const start = currentLevel * wordsPerLevel;
+    const end = start + wordsPerLevel;
+    return wordPairs.slice(start, end);
+  }, [currentLevel]);
+
+  const [flyingText, setFlyingText] = useState(null);
+
   const [knownWords, setKnownWords] = useState(0);
   const [answers, setAnswers] = useState(new Array(wordPairs.length).fill(0)); // Initialize based on wordPairs length
+  const levelAnswers = answers.slice(start, end);
   const [currentPair, setCurrentPair] = useState(null);
   const [feedback, setFeedback] = useState("");
   const [exampleSentence, setExampleSentence] = useState("");
@@ -20,27 +41,41 @@ const App = () => {
     top: '0px'
   });
 
+  const [musicStarted, setMusicStarted] = useState(false);
+
+  const startMusic = () => {
+    const audio = new Audio("/forest.mp3");
+    audio.loop = true;
+    audio.volume = 0.7;
+    audio.play();
+    setMusicStarted(true);
+    console.log("Music with license CC-BY-3.0 by syncopika from https://opengameart.org/content/forest");
+  };
+
   // Create refs for each word in the sentence
   const wordRefs = useRef([]);
 
   // Get random pair from wordPairs ensuring valid choices
+
+  // Now we hardcode the levels here with the 25 coefficients,
+  // should program this with better style:
+
   const getRandomPair = () => {
-    const validIndices = answers
-      .map((value, index) => (value >= 0 && value <= 2 ? index : -1))
-      .filter((index) => index !== -1);
-
+    const validIndices = levelWordPairs
+      .map((_, index) => index)
+      .filter((i) => answers[currentLevel * 25 + i] <= 2);
+  
     if (validIndices.length === 0) {
-      // If no valid answers, return a random word pair or handle empty wordPairs
-      if (wordPairs.length > 0) {
-        return wordPairs[Math.floor(Math.random() * wordPairs.length)];
-      } else {
-        return { english: 'N/A', finnish: 'N/A', exampleFI: 'N/A', exampleEN: 'N/A' };
-      }
+      return levelWordPairs[Math.floor(Math.random() * levelWordPairs.length)];
     }
-
+  
+    const indexInLevel = validIndices[Math.floor(Math.random() * validIndices.length)];
+    return levelWordPairs[indexInLevel];
+  
     const randomIndex = validIndices[Math.floor(Math.random() * validIndices.length)];
     return wordPairs[randomIndex];
   };
+  
 
   // Shuffle choices and ensure correct answer is in options
   const generateChoices = (correctAnswer) => {
@@ -69,13 +104,49 @@ const App = () => {
     wordRefs.current = []; // Clear the refs on each question
   };
 
+  // Check if the current level is complete, used inside checkAnswer if correct:
+  const isLevelComplete = () => {
+    const levelAnswers = answers.slice(start, end);
+
+    return levelAnswers.every((value) => value >= 3);
+  };
+
   const checkAnswer = (choice) => {
     const beerSound = new Audio('/beer-can-open-sound-230903.mp3');  // Correct answer sound
     const mosquitoSound = new Audio('/flying-mosquito-105770.mp3');  // Incorrect answer sound
     mosquitoSound.volume = 1; // Set this to a value between 0 and 1 (e.g., 0.8 for louder)
 
+    if (musicStarted === false) {
+      startMusic();
+    }
+
     if (choice === currentPair.finnish) {
       setFeedback("Correct!");
+      
+      // Randomize congrats and show flying text
+      const randomMsg = congratulatoryMessages[Math.floor(Math.random() * congratulatoryMessages.length)];
+
+      const randomX = Math.floor(Math.random() * 80 + 10); // 10%–90%
+      const randomY = Math.floor(Math.random() * 60 + 10); // 10%–70%
+      setFlyingText({
+        text: randomMsg,
+        x: randomX,
+        y: randomY
+      });
+      setTimeout(() => setFlyingText(null), 1000);
+
+      if (isLevelComplete()) {
+        console.log("🎉 Level complete!");
+        setFlyingText({
+          text: `🎉🎉🎉🎉 Level ${currentLevel + 1} valmis!🎉🎉🎉🎉`,
+          x: 50,
+          y: 40
+        });
+        setTimeout(() => setFlyingText(null), 4000);
+      }
+      
+
+
       setAnswers(
         answers.map((answer, index) =>
           index === wordPairs.indexOf(currentPair) ? answer + 1 : answer
@@ -172,10 +243,16 @@ const App = () => {
     }
   }, [wordPairs]);
 
+  const levelKnown = levelAnswers.filter((v) => v >= 3).length;
+  const levelTouched = levelAnswers.filter((v) => v >= 1).length; 
+
+
   return (
     <div className="App">
       <h1>FLUENZO</h1>
-      <h2>Opi 500 suomen sanaa nopeasti!</h2>
+      {/*<h2>Opi 500 suomen sanaa nopeasti!</h2>*/}   
+
+      <h2>Level {currentLevel + 1}</h2>
 
       <div id="quiz">
         <div className="question">{currentPair ? `What is the Finnish word for "${currentPair.english}"?` : ''}</div>
@@ -207,13 +284,50 @@ const App = () => {
 
       <div id="progress-bar-container">
         <div
-          id="progress-bar"
-          style={{ width: `${progress}%` }}
+          className="progress-bar touched"
+          style={{ width: `${(levelTouched / wordsPerLevel) * 100}%` }}
+        ></div>
+        <div
+          className="progress-bar known"
+          style={{ width: `${(levelKnown / wordsPerLevel) * 100}%` }}
         ></div>
       </div>
-      <p id="progress-text">Sanat {knownWords}/500</p>
+      <p id="progress-text">
+      Words correct once: {levelTouched} / 25 <br />
+      Words learnt on this level: {levelKnown} / 25 <br />
+      Total words learnt: {knownWords} <br />
+      </p>
 
-      <div id="import-progress-form">
+{/*
+      <div id="import-progress-form" className="level-changer">
+        <button 
+          onClick={() => setCurrentLevel((prev) => Math.max(prev - 1, 0))} 
+          disabled={currentLevel === 0}
+        >
+          -
+        </button>
+        <span>     Level {currentLevel + 1}     </span>
+        <button 
+          onClick={() => setCurrentLevel((prev) => Math.min(prev + 1, 19))} 
+          disabled={currentLevel === 19}
+        >
+          +
+        </button>
+      </div>   */}
+
+      {flyingText && (
+        <div
+          className="flying-text"
+          style={{
+            left: `${flyingText.x}%`,
+            top: `${flyingText.y}%`
+          }}
+        >
+          {flyingText.text}
+        </div>
+      )}
+
+    {/*  <div id="import-progress-form">
         <p>Import progress from earlier session</p>
         <input
           type="number"
@@ -224,7 +338,7 @@ const App = () => {
           placeholder="#Words (0-500)"
         />
         <button onClick={importProgress}>Import</button>
-      </div>
+      </div> */}
 
 
     </div>

@@ -133,6 +133,35 @@ h2 {
     z-index: 10;
 }
 
+
+.flying-text {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #00ffcc;
+    pointer-events: none;
+    animation: floatUp 1s ease-out forwards;
+    z-index: 9999;
+  }
+  
+  @keyframes floatUp {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, 0) scale(1);
+    }
+    30% {
+      opacity: 1;
+      transform: translate(-50%, -20px) scale(1.2);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -60px) scale(1);
+    }
+  }
+  
+  
+
 #next-button {
     margin-top: 20px;
     background-color: #4caf50;
@@ -158,20 +187,33 @@ h2 {
 
 /* Progress bar */
 #progress-bar-container {
-    width: 100%; /* Make progress bar same width as the quiz box */
-    background-color: #333;
-    border-radius: 20px;
+    width: 300px; /* Same width as other elements */
+    height: 16px;
     margin: 20px auto;
-    padding: 5px;
-    max-width: 600px; /* Same width as the quiz box */
-}
-
-#progress-bar {
-    width: 0%; /* Start with 0% width */
-    height: 30px;
-    background-color: #00ffcc;
-    border-radius: 15px;
-}
+    border-radius: 8px;
+    background-color: #222; /* Dark gray background */
+    overflow: hidden;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  .progress-bar.touched {
+    background-color: #3399ff; /* Calm blue */
+    z-index: 1;
+  }
+  
+  .progress-bar.known {
+    background-color: #33cc99; /* Soft green */
+    z-index: 2;
+  }
+  
 
 #progress-text {
     font-size: 1.2em;
