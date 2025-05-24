@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import "./App.css";
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { wordPairs, wordTranslations } from './data'; // Import the data
 import { congratulatoryMessages } from './congrats_messages'; // Import the congratulatory messages
+
+import CongratsScreen from './CongratsScreen';
+
 
 const App = () => {
   const totalWords = 500;
@@ -40,6 +44,8 @@ const App = () => {
     left: '0px',
     top: '0px'
   });
+
+  const navigate = useNavigate();
 
   const [musicStarted, setMusicStarted] = useState(false);
 
@@ -133,17 +139,12 @@ const App = () => {
         x: randomX,
         y: randomY
       });
-      setTimeout(() => setFlyingText(null), 1000);
+      setTimeout(() => setFlyingText(null), 3000);
 
       if (isLevelComplete()) {
-        console.log("🎉 Level complete!");
-        setFlyingText({
-          text: `🎉🎉🎉🎉 Level ${currentLevel + 1} valmis!🎉🎉🎉🎉`,
-          x: 50,
-          y: 40
-        });
-        setTimeout(() => setFlyingText(null), 4000);
+        navigate('/CongratsScreen', { state: { completedLevel: currentLevel } });
       }
+      
       
 
 
