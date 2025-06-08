@@ -113,7 +113,7 @@ const App = () => {
   // Check if the current level is complete, used inside checkAnswer if correct:
   const isLevelComplete = () => {
     const levelAnswers = answers.slice(start, end);
-
+    console.log("This is what isLevelComplete returns:", levelAnswers.every((value) => value >= 3));
     return levelAnswers.every((value) => value >= 3);
   };
 
@@ -142,6 +142,7 @@ const App = () => {
       setTimeout(() => setFlyingText(null), 3000);
 
       if (isLevelComplete()) {
+        console.log("Level complete!");
         navigate('/CongratsScreen', { state: { completedLevel: currentLevel } });
       }
       
