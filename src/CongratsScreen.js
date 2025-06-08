@@ -1,25 +1,19 @@
-import React, { useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const CongratsScreen = () => {
+const CongratsScreen = ({ currentLevel, setCurrentLevel }) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const level = location.state?.completedLevel ?? 0;
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      navigate('/', {
-        state: { advanceLevel: true }
-      });
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [navigate]);
+  const handleContinue = () => {
+    setCurrentLevel(currentLevel + 1);
+    navigate("/");
+  };
 
   return (
-    <div className="congrats-screen">
-      <h1>🎉 Congrats! 🎉</h1>
-      <p>You completed level {level + 1}!</p>
+    <div className="App">
+      <h1>🎉 Congratulations! 🎉</h1>
+      <p>You completed level {currentLevel + 1}!</p>
+      <button onClick={handleContinue}>Start Level {currentLevel + 2}</button>
     </div>
   );
 };
