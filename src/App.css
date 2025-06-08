@@ -337,3 +337,5 @@ h2 {
     color: red;
     display: none; /* Error message initially hidden */
 }
+
+.description{font-size: 2em; margin-top:  10px; margin-bottom: 30px;}

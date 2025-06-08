@@ -52,16 +52,16 @@ const QuizScreen = ({
       <div id="progress-bar-container">
         <div
           className="progress-bar touched"
-          style={{ width: `${(levelTouched / 25) * 100}%` }}
+          style={{ width: `${(levelTouched / 10) * 100}%` }}
         ></div>
         <div
           className="progress-bar known"
-          style={{ width: `${(levelKnown / 25) * 100}%` }}
+          style={{ width: `${(levelKnown / 10) * 100}%` }}
         ></div>
       </div>
       <p id="progress-text">
-        Words correct once: {levelTouched} / 25 <br />
-        Words learnt on this level: {levelKnown} / 25 <br />
+        Words correct once: {levelTouched} / 10 <br />
+        Words learnt on this level: {levelKnown} / 10 <br />
         Total words learnt: {knownWords} <br />
       </p>
 

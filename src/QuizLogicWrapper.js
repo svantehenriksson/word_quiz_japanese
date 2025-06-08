@@ -29,10 +29,10 @@ const QuizLogicWrapper = ({
   setMusicStarted,
   progressInput,
   setProgressInput,
-  updateProgress
+  //updateProgress
 }) => {
   //const totalWords = 500;
-  const wordsPerLevel = 25;
+  const wordsPerLevel = 10;
   const navigate = useNavigate();
   const wordRefs = useRef([]);
 
@@ -134,7 +134,7 @@ const QuizLogicWrapper = ({
       }, 7000);
     }
 
-    updateProgress();
+    //updateProgress();
     showExampleSentence();
     setShowNextButton(true);
   };
