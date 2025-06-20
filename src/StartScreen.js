@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { wordPairs } from './data';
+import { wordPairs } from './data2';
 import { levelDescriptions } from './LevelInfo';
 
 const StartScreen = ({ currentLevel, onStart }) => {

@@ -1,6 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { wordPairs, wordTranslations } from "./data";
+//import { wordPairs, wordTranslations } from "./data";
+// Changed completely the dataset to the new one, revert back if doesn't work:
+import { wordPairs} from "./data2"
+import { wordTranslations } from "./data2b";
 import { congratulatoryMessages } from "./congrats_messages";
 import QuizScreen from "./QuizScreen";
 
