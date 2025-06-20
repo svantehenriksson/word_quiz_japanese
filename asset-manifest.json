@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/word_quiz_japanese/static/css/main.6d293f00.css",
+    "main.js": "/word_quiz_japanese/static/js/main.a7bca032.js",
+    "static/js/488.f4265316.chunk.js": "/word_quiz_japanese/static/js/488.f4265316.chunk.js",
+    "index.html": "/word_quiz_japanese/index.html",
+    "main.6d293f00.css.map": "/word_quiz_japanese/static/css/main.6d293f00.css.map",
+    "main.a7bca032.js.map": "/word_quiz_japanese/static/js/main.a7bca032.js.map",
+    "488.f4265316.chunk.js.map": "/word_quiz_japanese/static/js/488.f4265316.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6d293f00.css",
+    "static/js/main.a7bca032.js"
+  ]
+}
