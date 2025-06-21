@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import QuizLogicWrapper from "./QuizLogicWrapper";
 import CongratsScreen from "./CongratsScreen";
-import StartScreen from "./StartScreen"; // 👈 New import
+import StartScreen from "./StartScreen"; 
 import { wordPairs } from "./data";
 import './App.css';
 
